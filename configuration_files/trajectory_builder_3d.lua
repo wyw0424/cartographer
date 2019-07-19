@@ -12,10 +12,10 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-MAX_3D_RANGE = 60.
+MAX_3D_RANGE = 100.
 
 TRAJECTORY_BUILDER_3D = {
-  min_range = 1.,
+  min_range = 0.1,
   max_range = MAX_3D_RANGE,
   num_accumulated_range_data = 1,
   voxel_filter_size = 0.15,
@@ -34,39 +34,39 @@ TRAJECTORY_BUILDER_3D = {
 
   use_online_correlative_scan_matching = false,
   real_time_correlative_scan_matcher = {
-    linear_search_window = 0.15,
+    linear_search_window = 0.1,
     angular_search_window = math.rad(1.),
-    translation_delta_cost_weight = 1e-1,
-    rotation_delta_cost_weight = 1e-1,
+    translation_delta_cost_weight = 5,
+    rotation_delta_cost_weight = 10,
   },
 
   ceres_scan_matcher = {
     occupied_space_weight_0 = 1.,
     occupied_space_weight_1 = 6.,
     translation_weight = 5.,
-    rotation_weight = 4e2,
+    rotation_weight = 10,
     only_optimize_yaw = false,
     ceres_solver_options = {
       use_nonmonotonic_steps = false,
-      max_num_iterations = 12,
-      num_threads = 1,
+      max_num_iterations = 20,
+      num_threads = 7,
     },
   },
 
   motion_filter = {
     max_time_seconds = 0.5,
     max_distance_meters = 0.1,
-    max_angle_radians = 0.004,
+    max_angle_radians = 0.04,
   },
 
-  imu_gravity_time_constant = 10.,
-  rotational_histogram_size = 120,
+  imu_gravity_time_constant = 100,
+  rotational_histogram_size = 2000,
 
   submaps = {
     high_resolution = 0.10,
     high_resolution_max_range = 20.,
     low_resolution = 0.45,
-    num_range_data = 160,
+    num_range_data = 320,
     range_data_inserter = {
       hit_probability = 0.55,
       miss_probability = 0.49,
