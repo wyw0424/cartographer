@@ -137,6 +137,8 @@ transform::Rigid3d PoseExtrapolator::ExtrapolatePose(const common::Time time) {
   if (cached_extrapolated_pose_.time != time) {
     const Eigen::Vector3d translation =
         ExtrapolateTranslation(time) + newest_timed_pose.pose.translation();
+    // Derek: Extrapolate translation!!!!
+   //std::cout << translation(0) << ", " << translation(1) << ", " << translation(2) << std::endl;
     const Eigen::Quaterniond rotation =
         newest_timed_pose.pose.rotation() *
         ExtrapolateRotation(time, extrapolation_imu_tracker_.get());
@@ -171,8 +173,16 @@ void PoseExtrapolator::UpdateVelocitiesFromPoses() {
   }
   const transform::Rigid3d& newest_pose = newest_timed_pose.pose;
   const transform::Rigid3d& oldest_pose = oldest_timed_pose.pose;
+  // Derek
+  //oldest_pose.translation().z() = last_z_;
+  //std::cout << "newest_pose: " << newest_pose.translation().x() << ", " << newest_pose.translation().y() << ", " << newest_pose.translation().z()  << std::endl;
+  //std::cout << "oldest_pose: " << oldest_pose.translation().x() << ", " << oldest_pose.translation().y() << ", " << oldest_pose.translation().z()  << std::endl;
+  //std::cout << "queue_delta: " << queue_delta << std::endl;
+
   linear_velocity_from_poses_ =
       (newest_pose.translation() - oldest_pose.translation()) / queue_delta;
+  // Derek
+  //std::cout << "linear_velocity_from_poses_: " << linear_velocity_from_poses_(0) << ", " << linear_velocity_from_poses_(1) << ", " << linear_velocity_from_poses_(2)  << std::endl;
   angular_velocity_from_poses_ =
       transform::RotationQuaternionToAngleAxisVector(
           oldest_pose.rotation().inverse() * newest_pose.rotation()) /

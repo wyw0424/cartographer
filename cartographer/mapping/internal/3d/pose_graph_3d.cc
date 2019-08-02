@@ -144,7 +144,10 @@ NodeId PoseGraph3D::AddNode(
     const std::vector<std::shared_ptr<const Submap3D>>& insertion_submaps) {
   const transform::Rigid3d optimized_pose(
       GetLocalToGlobalTransform(trajectory_id) * constant_data->local_pose);
-
+  
+  // Derek: Optimized pose from local to global transform
+  //std::cout << "trajectory id: " << trajectory_id << std::endl;
+  //std::cout << "optimized pose: " << optimized_pose.translation().x() << ", " << optimized_pose.translation().y() << ", " << optimized_pose.translation().z() << std::endl;
   const NodeId node_id = AppendNode(constant_data, trajectory_id,
                                     insertion_submaps, optimized_pose);
   // We have to check this here, because it might have changed by the time we

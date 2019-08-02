@@ -73,7 +73,8 @@ std::unique_ptr<transform::Rigid3d> LocalTrajectoryBuilder3D::ScanMatch(
       matching_submap->local_pose().inverse() * pose_prediction;
   if (options_.use_online_correlative_scan_matching()) {
     // We take a copy since we use 'initial_ceres_pose' as an output argument.
-    const transform::Rigid3d initial_pose = initial_ceres_pose;
+    transform::Rigid3d initial_pose = initial_ceres_pose;
+    initial_ceres_pose.translation().z() = 0.0;
     const double score = real_time_correlative_scan_matcher_->Match(
         initial_pose, high_resolution_point_cloud_in_tracking,
         matching_submap->high_resolution_hybrid_grid(), &initial_ceres_pose);
@@ -169,6 +170,8 @@ LocalTrajectoryBuilder3D::AddRangeData(
     hits_poses.push_back(
         extrapolator_->ExtrapolatePose(time_point).cast<float>());
   }
+        // Derek
+    //std::cout << "AddRangeData-> hits_poses finished ^-^ " << std::endl;
 
   if (num_accumulated_ == 0) {
     // 'accumulated_range_data_.origin' is not used.
@@ -205,6 +208,8 @@ LocalTrajectoryBuilder3D::AddRangeData(
     last_sensor_time_ = current_sensor_time;
     num_accumulated_ = 0;
 
+        // Derek
+    //std::cout << "AddRangeData-> num accumulated-> current pose: " << std::endl;
     transform::Rigid3f current_pose =
         extrapolator_->ExtrapolatePose(current_sensor_time).cast<float>();
 
@@ -242,6 +247,8 @@ LocalTrajectoryBuilder3D::AddAccumulatedRangeData(
     LOG(WARNING) << "Dropped empty range data.";
     return nullptr;
   }
+        // Derek
+    std::cout << "AddAccumulatedRangeData-> pose prediction: " << std::endl;
   const transform::Rigid3d pose_prediction =
       extrapolator_->ExtrapolatePose(time);
 
@@ -268,6 +275,8 @@ LocalTrajectoryBuilder3D::AddAccumulatedRangeData(
   std::unique_ptr<transform::Rigid3d> pose_estimate =
       ScanMatch(pose_prediction, low_resolution_point_cloud_in_tracking,
                 high_resolution_point_cloud_in_tracking);
+        // Derek
+    //std::cout << "AddAccumulatedRangeData-> pose estimate-> ScanMatch: " << pose_estimate->translation().x()  << ", " << pose_estimate->translation().y() << ", " << pose_estimate->translation().z()<< std::endl;
   if (pose_estimate == nullptr) {
     LOG(WARNING) << "Scan matching failed.";
     return nullptr;
