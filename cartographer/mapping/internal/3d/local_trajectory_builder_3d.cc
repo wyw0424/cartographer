@@ -74,7 +74,8 @@ std::unique_ptr<transform::Rigid3d> LocalTrajectoryBuilder3D::ScanMatch(
   if (options_.use_online_correlative_scan_matching()) {
     // We take a copy since we use 'initial_ceres_pose' as an output argument.
     transform::Rigid3d initial_pose = initial_ceres_pose;
-    initial_ceres_pose.translation().z() = 0.0;
+    // Derek
+    //initial_ceres_pose.translation().z() = 0.0;
     const double score = real_time_correlative_scan_matcher_->Match(
         initial_pose, high_resolution_point_cloud_in_tracking,
         matching_submap->high_resolution_hybrid_grid(), &initial_ceres_pose);
@@ -248,7 +249,7 @@ LocalTrajectoryBuilder3D::AddAccumulatedRangeData(
     return nullptr;
   }
         // Derek
-    std::cout << "AddAccumulatedRangeData-> pose prediction: " << std::endl;
+  //  std::cout << "AddAccumulatedRangeData-> pose prediction: " << std::endl;
   const transform::Rigid3d pose_prediction =
       extrapolator_->ExtrapolatePose(time);
 

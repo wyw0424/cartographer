@@ -15,7 +15,7 @@
 MAX_3D_RANGE = 100.
 
 TRAJECTORY_BUILDER_3D = {
-  min_range = 0.1,
+  min_range = 1.,
   max_range = MAX_3D_RANGE,
   num_accumulated_range_data = 1,
   voxel_filter_size = 0.15,

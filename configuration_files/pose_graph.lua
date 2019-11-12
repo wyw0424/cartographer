@@ -13,10 +13,10 @@
 -- limitations under the License.
 
 POSE_GRAPH = {
-  optimize_every_n_nodes = 160,
+  optimize_every_n_nodes = 20,
   constraint_builder = {
-    sampling_ratio = 0.3,
-    max_constraint_distance = 50.,
+    sampling_ratio = 0.03,
+    max_constraint_distance = 30.,
     min_score = 0.3,
     global_localization_min_score = 0.4,
     loop_closure_translation_weight = 1e3,
@@ -28,7 +28,7 @@ POSE_GRAPH = {
       branch_and_bound_depth = 7,
     },
     ceres_scan_matcher = {
-      occupied_space_weight = 20.,
+      occupied_space_weight = 2000.,
       translation_weight = 10.,
       rotation_weight = 1.,
       ceres_solver_options = {
@@ -81,7 +81,7 @@ POSE_GRAPH = {
     },
   },
   max_num_final_iterations = 400,
-  global_sampling_ratio = 0.003,
+  global_sampling_ratio = 0.005,
   log_residual_histograms = false,
   global_constraint_search_after_n_seconds = 10.,
   --  overlapping_submaps_trimmer_2d = {

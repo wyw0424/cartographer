@@ -288,10 +288,12 @@ void OptimizationProblem3D::Solve(
   MapById<NodeId, CeresPose> C_nodes;
   std::map<std::string, CeresPose> C_landmarks;
   bool first_submap = true;
-  for (const auto& submap_id_data : submap_data_) {
+  for (const auto& submap_id_data : submap_data_) 
+  {
     const bool frozen =
         frozen_trajectories.count(submap_id_data.id.trajectory_id) != 0;
-    if (first_submap) {
+    if (first_submap) 
+    {
       first_submap = false;
       // Fix the first submap of the first trajectory except for allowing
       // gravity alignment.
@@ -304,7 +306,9 @@ void OptimizationProblem3D::Solve(
                     &problem));
       problem.SetParameterBlockConstant(
           C_submaps.at(submap_id_data.id).translation());
-    } else {
+    } 
+    else 
+    {
       C_submaps.Insert(
           submap_id_data.id,
           CeresPose(submap_id_data.data.global_pose,
@@ -319,7 +323,8 @@ void OptimizationProblem3D::Solve(
           C_submaps.at(submap_id_data.id).translation());
     }
   }
-  for (const auto& node_id_data : node_data_) {
+  for (const auto& node_id_data : node_data_) 
+  {
     const bool frozen =
         frozen_trajectories.count(node_id_data.id.trajectory_id) != 0;
     C_nodes.Insert(
@@ -334,7 +339,8 @@ void OptimizationProblem3D::Solve(
     }
   }
   // Add cost functions for intra- and inter-submap constraints.
-  for (const Constraint& constraint : constraints) {
+  for (const Constraint& constraint : constraints) 
+  {
     problem.AddResidualBlock(
         SpaCostFunction3D::CreateAutoDiffCostFunction(constraint.pose),
         // Loop closure constraints should have a loss function.

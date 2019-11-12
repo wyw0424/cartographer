@@ -15,12 +15,12 @@
 TRAJECTORY_BUILDER_2D = {
   use_imu_data = true,
   min_range = 0.,
-  max_range = 30.,
+  max_range = 60.,
   min_z = -0.8,
-  max_z = 2.,
+  max_z = 1.5,
   missing_data_ray_length = 5.,
   num_accumulated_range_data = 1,
-  voxel_filter_size = 0.025,
+  voxel_filter_size = 0.05,
 
   adaptive_voxel_filter = {
     max_length = 0.5,
@@ -49,7 +49,7 @@ TRAJECTORY_BUILDER_2D = {
     ceres_solver_options = {
       use_nonmonotonic_steps = false,
       max_num_iterations = 20,
-      num_threads = 1,
+      num_threads = 7,
     },
   },
 
